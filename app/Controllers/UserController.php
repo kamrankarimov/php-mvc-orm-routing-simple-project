@@ -2,13 +2,14 @@
 
 use App\Core\Base\Controller;
 use App\Models\User;
+
 class UserController extends Controller
 {
+
     public function index()
     {
         $userModel = new User();
-        $usersData = $this->db->getAll("users");
-
+        $usersData = $userModel->getAllUser("users");
         $this->view('user', [
             'users' => $usersData
         ]);

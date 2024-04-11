@@ -7,9 +7,7 @@ class User extends Model
 {
     public function getAllUser()
     {
-        return $this->getAll("users");
+        return parent::getAll("users");
     }
 
 }
-
-?>

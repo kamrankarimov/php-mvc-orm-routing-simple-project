@@ -2,7 +2,7 @@
 
 namespace App\Core\Base;
 
-use App\Core\Database\DatabaseORM;
+use App\Core\Database\Database;
 
 class Controller
 {
@@ -11,7 +11,7 @@ class Controller
 
     public function __construct()
     {
-        $this->db = new DatabaseORM();
+        $this->db = new Database();
         $this->AppDir = dirname(__DIR__, 2);
     }
 
