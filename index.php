@@ -1,11 +1,10 @@
-<?php 
+<?php
 
-    require __DIR__ . '/database.php';
-    require __DIR__ . '/model.php';
-    require __DIR__ . '/controller.php';
-    require __DIR__ . '/route.php';
+    error_reporting(E_ALL);
+
+    require 'vendor/autoload.php';
+
+    use App\Core\Routes\Route;
 
     Route::run('/users', 'users@index');
-    Route::run('/welcome-student', 'users@welcome');
-
-?>
+    Route::run('/welcome', 'users@welcome');
