@@ -18,7 +18,9 @@ class Controller
     protected function view($name, $data = [])
     {
         extract($data);
-        $getViewPath = str_replace("Controller", "", $this->ruleViewNaming($this->getClassName($this)));
+
+        $getViewPath = str_replace("App\Controllers\\", "", $this->ruleViewNaming($this->getClassName($this)));
+        $getViewPath = str_replace("Controller", "", $getViewPath);
         $path = $this->AppDir . '/Views/'. $getViewPath .'/'. $this->ruleViewNaming(strtolower($name)) . '.php';
         require $path;
     }

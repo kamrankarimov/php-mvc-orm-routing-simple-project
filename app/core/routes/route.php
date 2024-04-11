@@ -2,6 +2,8 @@
 
 namespace App\Core\Routes;
 
+use App\Controllers;
+
 class Route
 {
     public static function parse_url()
@@ -42,6 +44,7 @@ class Route
 
                     if (file_exists($controllerFile)) {
                         require $controllerFile;
+                        $className = "\\App\\Controllers\\".$className;
                         call_user_func_array([new $className, $controller[1]], $parameters);
                     }
                 }

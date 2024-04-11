@@ -13,7 +13,11 @@ class Database
     private string $database;
     private string $password;
     private string $charset;
-    protected static mixed $conn;
+    public static mixed $conn;
+    private static string $table;
+    private static string $columns;
+    private static string $where;
+    private static string $modelName;
 
     public function __construct()
     {
@@ -46,17 +50,49 @@ class Database
         self::$conn = null;
     }
 
-    protected static function getById($table, $columns = "*", $where=null){
-        $where  = !is_null($where) ? "WHERE $where" : null;
-        $sql    = "SELECT " . $columns . " FROM " . $table . " " . $where;
+    public function Where(string $where = null): self
+    {
+        self::$where = trim($where);
+        return $this;
+    }
+
+    public function From(string $table): self
+    {
+        self::$table = trim($table);
+        return $this;
+    }
+
+    public function Columns(string $columns = "*"): self
+    {
+        self::$columns = trim($columns);
+        return $this;
+    }
+
+    private static function parseClassName($className): mixed
+    {
+        $parse = (str_contains($className, 'Models') || str_contains($className, 'Controller')) ? $className : null;
+        $parse = explode('\\', $className);
+        $parse = strtolower(end($parse));
+        $parse = str_replace('models', '', $parse);
+        $parse = str_replace('controller', '', $parse);
+        return $parse;
+    }
+
+    public static function getById(){
+        self::$where = !is_null(self::$where) ? "WHERE ".self::$where : null;
+        $sql    = "SELECT " . self::$columns . " FROM " . self::$table . " " . self::$where;
         $que    = self::$conn->prepare($sql);
         $que->execute();
         return $que->fetchAll();
     }
 
-    public static function getAll($table, $columns = "*"){
-        $sql    = "SELECT " . $columns . " FROM " . $table;
-        $que    = self::$conn->prepare($sql);
+    public static function getAll(){
+        $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
+        $parseClass = self::parseClassName($backtrace[1]['class']);
+        $table      = !isset(self::$table) ? $parseClass : self::$table;
+        $columns    = !isset(self::$columns) ? "*" : self::$columns;
+        $sql        = "SELECT " . $columns . " FROM " . $table;
+        $que        = self::$conn->prepare($sql);
         $que->execute();
         return $que->fetchAll();
     }

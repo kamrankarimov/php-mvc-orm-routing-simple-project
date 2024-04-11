@@ -8,3 +8,4 @@
 
     Route::run('/users', 'user@index');
     Route::run('/welcome', 'user@welcome');
+    Route::run('/community', 'community@index');

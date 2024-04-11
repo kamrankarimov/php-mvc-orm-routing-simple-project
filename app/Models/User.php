@@ -5,9 +5,14 @@ use App\Core\Base\Model;
 
 class User extends Model
 {
+
     public function getAllUser()
     {
-        return parent::getAll("users");
+        return $this
+            ->From("users")
+            ->Columns("fullname")
+            ->Where("id = 1")
+            ->getAll();
     }
 
 }
