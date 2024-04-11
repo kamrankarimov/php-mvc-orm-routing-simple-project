@@ -4,15 +4,16 @@ namespace App\Core\Database;
 
 use App\Core\Library\EnvReader;
 use PDO;
+use PDOException;
 
 class Database
 {
-    private $servername;
-    private $username;
-    private $database;
-    private $password;
-    private $charset;
-    protected static $conn;
+    private string $servername;
+    private string $username;
+    private string $database;
+    private string $password;
+    private string $charset;
+    protected static mixed $conn;
 
     public function __construct()
     {
@@ -29,7 +30,8 @@ class Database
         $this->disconnect();
     }
 
-    private function connect(){
+    private function connect(): void
+    {
         try {
             self::$conn = new PDO("mysql:host=".$this->servername.";dbname=".$this->database, $this->username, $this->password);
             self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -37,23 +39,23 @@ class Database
         } catch(PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
-        return self::$conn;
     }
 
-    public function disconnect() {
+    public function disconnect(): void
+    {
         self::$conn = null;
     }
 
-    protected function getById($table, $columns = "*", $where=null){
+    protected static function getById($table, $columns = "*", $where=null){
         $where  = !is_null($where) ? "WHERE $where" : null;
-        $sql    = "SELECT $columns FROM $table $where";
-        $que    = $this->conn->prepare($sql);
+        $sql    = "SELECT " . $columns . " FROM " . $table . " " . $where;
+        $que    = self::$conn->prepare($sql);
         $que->execute();
         return $que->fetchAll();
     }
 
-    public static function getAll($table, $columns = "*",){
-        $sql    = "SELECT $columns FROM $table";
+    public static function getAll($table, $columns = "*"){
+        $sql    = "SELECT " . $columns . " FROM " . $table;
         $que    = self::$conn->prepare($sql);
         $que->execute();
         return $que->fetchAll();
