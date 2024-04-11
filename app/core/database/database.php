@@ -2,6 +2,8 @@
 
 namespace App\Core\Database;
 
+use PDO;
+
 class Database
 {
 

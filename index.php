@@ -6,5 +6,5 @@
 
     use App\Core\Routes\Route;
 
-    Route::run('/users', 'users@index');
-    Route::run('/welcome', 'users@welcome');
+    Route::run('/users', 'user@index');
+    Route::run('/welcome', 'user@welcome');

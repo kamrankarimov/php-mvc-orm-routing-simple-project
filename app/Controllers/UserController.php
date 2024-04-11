@@ -1,15 +1,15 @@
 <?php
 
 use App\Core\Base\Controller;
-class Users extends Controller
+class UserController extends Controller
 {
 
     public function index()
     {
-        $usersModel = $this->model('usersmodel');
-        $usersData = $usersModel->getUsers();
+        $userModel = $this->model('User');
+        $usersData = $userModel->getUsers();
 
-        $this->view('users', [
+        $this->view('user', [
             'users' => $usersData
         ]);
     }

@@ -4,9 +4,6 @@ namespace App\Core\Routes;
 
 class Route
 {
-
-
-
     public static function parse_url()
     {
         $dirname = dirname($_SERVER['SCRIPT_NAME']);
@@ -21,7 +18,6 @@ class Route
     {
         $method = explode('|', strtoupper($method));
 
-
         if (in_array($_SERVER['REQUEST_METHOD'], $method)) {
 
             $patterns = [
@@ -30,11 +26,7 @@ class Route
             ];
 
             $url = str_replace(array_keys($patterns), array_values($patterns), $url);
-
-
             $request_uri = self::parse_url();
-
-
 
             if (preg_match('@^' . $url . '$@', $request_uri, $parameters)) {
                 unset($parameters[0]);
@@ -42,17 +34,16 @@ class Route
                 if (is_callable($callback)) {
                     call_user_func_array($callback, $parameters);
                 } else {
-
                     $controller = explode('@', $callback);
-                    $className = explode('/', $controller[0]);
-                    $className = end($className);
-                    $controllerFile = dirname(dirname(__DIR__)). '/controllers/' . strtolower($controller[0]) . '.php';
+                    $className  = explode('/', $controller[0]);
+                    $className  = ucfirst(end($className));
+                    $className  = $className.'Controller';
+                    $controllerFile =  dirname(dirname(__DIR__)) . '/Controllers/' . ucfirst(strtolower($controller[0])) . 'Controller.php';
 
                     if (file_exists($controllerFile)) {
                         require $controllerFile;
                         call_user_func_array([new $className, $controller[1]], $parameters);
                     }
-
                 }
 
             }

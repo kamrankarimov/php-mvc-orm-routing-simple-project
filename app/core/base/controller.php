@@ -11,16 +11,30 @@ class Controller
         $this->AppDir = dirname(__DIR__, 2);
     }
 
-    public function view($name, $data = [])
+    protected function view($name, $data = [])
     {
         extract($data);
-        require $this->AppDir . '/views/' . strtolower($name) . '.php';
+        $getViewPath = str_replace("Controller", "", $this->ruleViewNaming($this->getClassName($this)));
+        $path = $this->AppDir . '/Views/'. $getViewPath .'/'. $this->ruleViewNaming(strtolower($name)) . '.php';
+        require $path;
     }
 
-    public function model($name)
+    protected function model($name)
     {
-        require  $this->AppDir . strtolower($name) . '.php';
+        require $this->AppDir .'/Models/'. $this->ruleModelNaming(strtolower($name)) . '.php';
         return new $name();
+    }
+
+    private function getClassName($obj){
+        return get_class($obj);
+    }
+
+    private function ruleViewNaming($name){
+        return ucfirst($name);
+    }
+
+    private function ruleModelNaming($name){
+        return ucfirst($name);
     }
 
 }

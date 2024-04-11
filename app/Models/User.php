@@ -1,7 +1,8 @@
 <?php
 
+use App\Core\Base\Model;
 
-class usersmodel extends Model
+class User extends Model
 {
 
     public function getUsers()
