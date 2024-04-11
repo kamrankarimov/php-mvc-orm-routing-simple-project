@@ -4,9 +4,8 @@ namespace App\Core\Database;
 
 use PDO;
 
-class Database
+class DatabaseDriver
 {
-
     protected $db;
 
     public function __construct()

@@ -2,12 +2,16 @@
 
 namespace App\Core\Base;
 
+use App\Core\Database\DatabaseORM;
+
 class Controller
 {
     private string $AppDir;
+    protected $db;
 
     public function __construct()
     {
+        $this->db = new DatabaseORM();
         $this->AppDir = dirname(__DIR__, 2);
     }
 

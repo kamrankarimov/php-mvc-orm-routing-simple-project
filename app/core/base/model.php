@@ -2,8 +2,9 @@
 
 namespace App\Core\Base;
 
-use App\Core\Database\Database;
-class Model extends Database
-{
+use App\Core\Database\DatabaseORM;
 
+class Model extends DatabaseORM
+{
+    // ...
 }
