@@ -4,6 +4,8 @@
 
     use App\Core\Routes\Route;
 
+    // DEMO - ROUTE, CONTROLLER, METHODS, VIEWS
+
     Route::run('/', 'home@index', 'get');
 
     Route::run('/team', 'team@index');
