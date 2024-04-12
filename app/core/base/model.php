@@ -6,5 +6,5 @@ use App\Core\Database\Database;
 
 class Model extends Database
 {
-    // ...
+
 }

@@ -50,18 +50,30 @@ class Database
         self::$conn = null;
     }
 
+    /**
+     * @param string|null $where
+     * @return $this
+     */
     public function Where(string $where = null): self
     {
         self::$where = trim($where);
         return $this;
     }
 
+    /**
+     * @param string $table
+     * @return $this
+     */
     public function From(string $table): self
     {
         self::$table = trim($table);
         return $this;
     }
 
+    /**
+     * @param string $columns
+     * @return $this
+     */
     public function Columns(string $columns = "*"): self
     {
         self::$columns = trim($columns);
@@ -78,15 +90,41 @@ class Database
         return $parse;
     }
 
-    public static function getById(){
-        self::$where = !is_null(self::$where) ? "WHERE ".self::$where : null;
-        $sql    = "SELECT " . self::$columns . " FROM " . self::$table . " " . self::$where;
+    /**
+     * @return array
+     */
+    public static function getById(): array{
+        $backtrace      = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
+        $parseClass     = self::parseClassName($backtrace[1]['class']);
+        $table          = !isset(self::$table) ? $parseClass : self::$table;
+        self::$where    = !is_null(self::$where) ? "WHERE id = ".self::$where : null;
+
+        $sql    = "SELECT " . self::$columns . " FROM " . $table . " " . self::$where;
         $que    = self::$conn->prepare($sql);
         $que->execute();
         return $que->fetchAll();
     }
 
-    public static function getAll(){
+
+    /**
+     * @return array
+     */
+    public static function Find(): array{
+        $backtrace      = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
+        $parseClass     = self::parseClassName($backtrace[1]['class']);
+        $table          = !isset(self::$table) ? $parseClass : self::$table;
+        self::$where    = !is_null(self::$where) ? "WHERE ".self::$where : null;
+
+        $sql    = "SELECT " . self::$columns . " FROM " . $table . "`" .self::$where. "`";
+        $que    = self::$conn->prepare($sql);
+        $que->execute();
+        return $que->fetchAll();
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAll(): array{
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
         $parseClass = self::parseClassName($backtrace[1]['class']);
         $table      = !isset(self::$table) ? $parseClass : self::$table;

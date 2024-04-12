@@ -4,7 +4,11 @@ namespace App\Core\Library;
 
 class EnvReader
 {
-    public static function get($field) {
+    /**
+     * @param $field
+     * @return string|array
+     */
+    public static function get($field): string|array {
         $env = [];
 
         $envDir = dirname(__DIR__, 3);
