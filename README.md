@@ -1,4 +1,6 @@
-# Simple PHP MVC Project  - PHP 8.3 MVC, ORM, Routing (simple, without using any ready-made libraries)
+# Simple PHP MVC Project  - PHP 8.3 MVC, ORM, Routing 
+
+Simple, without using any ready-made libraries
 
 ## Description
 
