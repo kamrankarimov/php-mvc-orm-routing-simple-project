@@ -59,6 +59,7 @@ class Route
                         $className = "\\App\\Controllers\\".$className;
                         $methodName = $controller[1]."Action";
                         call_user_func_array([new $className, $methodName], $parameters);
+                        exit;
                     }
                 }
 
